@@ -1,0 +1,169 @@
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'com.kezong.fat-aar'
+
+//自定义打包时间
+def releaseTime() {
+    return new Date().format("yyyyMMdd_hhmmss", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
+def apkName() {
+    return "AiSelfOpenComponts4.2Demo"
+}
+
+def aarName() {
+    return "OCR_AiSelfOpen_SDK"
+}
+
+def aarVersion() {
+    return "1.0.0"
+}
+
+//打包版本日期
+def versionBuildTime() {
+    return new Date().format("yyMMdd", TimeZone.getTimeZone("GMT+8:00"))
+}
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+       // applicationId "com.anychat.aiselfopen3demo"
+//        applicationId "com.anychat.aiselfopendemounai"
+//        applicationId "com.zheshangqihuo.mhdxh"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 11
+//        versionName "3.0.0"
+
+
+//        ndk {
+//            // 设置支持的SO库架构
+//            abiFilters 'armeabi', 'arm64-v8a'
+//        }
+    }
+
+    flavorDimensions 'versionType'
+    //注意Beta和Release版本名字的区别，开发测试的为Beta版本，正式发布或对外poc的为Release版本
+    //从2.6.0开始，他们规范版本号格式为：2.6.0.R1.221010   2.6.0.R2.221010 。。。
+    productFlavors {
+        BetaVersion {
+            versionName = '4.2.0.B3.' + "${versionBuildTime()}"
+        }
+        ReleaseVersion {
+            //由于从2.6.0开始他们规范了版本号格式，但此种格式在蒲公英不好区分是提测版本还是发布版本，
+            //所以这里自己又多拼了个Release
+            versionName = '4.2.0.R3.' + "_${versionBuildTime()}" //+ '.Release
+        }
+    }
+
+    signingConfigs {
+
+        release {
+            keyAlias 'zsqhtest'
+            keyPassword 'zsqhtest'
+            storeFile file('zsqhtest.keystore')
+            storePassword 'zsqhtest'
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            keyAlias 'zsqhtest'
+            keyPassword 'zsqhtest'
+            storeFile file('zsqhtest.keystore')
+            storePassword 'zsqhtest'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    //自定义打包apk名
+//    applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                def apkName = "${apkName()}"
+//                def releaseTime = "${releaseTime()}"
+//                def fileName = "${apkName}_V${versionName}.apk"
+//                outputFileName = fileName
+//            }
+//        }
+//    }
+
+    //自定义打包aar名
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            println("testtest")
+            println(outputFile.name)
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def aarName = "${aarName()}"
+                def releaseTime = "${releaseTime()}"
+                def fileName = "${aarName}_V${aarVersion()}_${releaseTime}.aar"
+                println(fileName)
+                println(outputFile.path)
+                outputFile.renameTo(new File(projectDir.path + "/output-aar", fileName))
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+//    packagingOptions {
+//        //匹配到多个相同文件，只提取第一个
+//        pickFirst "*/arm64-v8a/*.so"
+//        //设置某些动态库不被优化压缩
+//        doNotStrip "*/arm64-v8a/*.so"
+//    }
+
+}
+
+
+dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+
+    //智能双录组件依赖库
+//    implementation project(path: ':AISelfRecordSDK')
+//    implementation(name: 'AISelfRecordSDK', ext: 'aar')
+    //坐席组件依赖库
+//    implementation project(path: ':anychatagentsdk')
+//    implementation(name: 'anychatagentsdk', ext: 'aar')
+//    implementation project(path: ':anyChat_AndroidSDK_PRO')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+//    api 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    //智能单向开户所需远程依赖
+    implementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation 'junit:junit:4.12'
+    // 状态栏
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
+    embed (name:'AISelfRecordSDK', ext:'aar')
+    embed (name:'anychatagentsdk', ext:'aar')
+//    api project(path: ':ocr_ui')
+    embed  project(path: ':ocr_ui', configuration: 'default' )
+}

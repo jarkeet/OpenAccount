@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>android与JS交互</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="index.css" />
+		<script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+		<script>
+  // VConsole 默认会挂载到 `window.VConsole` 上
+  var vConsole = new window.VConsole();
+</script>
+	</head>
+
+	<body>
+	<input accept="image/*" capture="camera" id="imgFile" name="imgFile"  type="file">
+		<div id="image_div">
+			<img src="img/knowledge_icon.png" />
+		</div>
+        
+        <div id="title_div">
+            <p>演示H5调用iOS原生方法</p>
+        </div>
+<!--		<div id="text_div">-->
+<!--			clientId:<input id="clientId" type="text" value="16620062705"/><br/>-->
+<!--			人脸识别最大错误次数:<input id="faceCheckCount" type="text" value="5"/><br/>-->
+<!--			回答最大次数:<input id="answerMaxCount" type="text" value="2"/>-->
+<!--		</div>-->
+		<div id="login_div" onclick="loginAction()">
+			登录1
+		</div>
+
+<!--		<div id="down_div" onclick="downloadAction()">-->
+<!--			下载-->
+<!--		</div>-->
+<!--		<div id="button_div" onclick="startRecordAction()">-->
+<!--			开始双录-->
+<!--		</div>-->
+<!---->
+<!--		<div id="exit_div" onclick="exitAction()">-->
+<!--			退出-->
+<!--		</div>-->
+        <div id="result_div">
+            <p></p>
+        </div>
+
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+
+	</body>
+
+</html>

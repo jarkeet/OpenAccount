@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1678ee</color>
+    <!--<color name="colorPrimaryDark">#aaaaaa</color>-->
+    <color name="colorPrimaryDark">#008be3</color>
+    <color name="colorAccent">#1678ee</color>
+
+
+    <color name="blue_title_bar">#0778F8</color>
+    <color name="aiselfrecord_white">#ffffff</color>
+    <color name="light">#dddddd</color>
+    <color name="aiselfrecord_line_color">#E8E8E8</color>
+    <color name="aiselfrecord_welcome_line_color">#E5E5E5</color>
+    <color name="aiselfrecord_bg_content">#f2f4f9</color>
+    <color name="cfrecordpad_bg_process_pass">#FF0B5DFF</color>
+    <color name="cfrecordpad_bg_process_select">#303133</color>
+    <color name="cfrecordpad_bg_process_normal">#00000000</color>
+    <color name="aiselfrecord_welcome_hit_color">#999999</color>
+
+</resources>
