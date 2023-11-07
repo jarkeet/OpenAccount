@@ -1,6 +1,8 @@
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
 apply plugin: 'com.kezong.fat-aar'
+apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
+
 
 //自定义打包时间
 def releaseTime() {
@@ -115,7 +117,7 @@ android {
                 def fileName = "${aarName}_V${aarVersion()}_${releaseTime}.aar"
                 println(fileName)
                 println(outputFile.path)
-                outputFile.renameTo(new File(projectDir.path + "/output-aar", fileName))
+//                outputFile.renameTo(new File(projectDir.path + "/output-aar", fileName))
             }
         }
     }
@@ -167,3 +169,4 @@ dependencies {
 //    api project(path: ':ocr_ui')
     embed  project(path: ':ocr_ui', configuration: 'default' )
 }
+
